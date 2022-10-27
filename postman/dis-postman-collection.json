@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a195866a-f067-4f76-926f-7c5279e20072",
-		"name": "DOT Digital Identity Service 1.8.0",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "917de228-f6a4-4165-87e7-7be72225c511",
+		"name": "DOT Digital Identity Service 1.10.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23173958"
 	},
 	"item": [
 		{
@@ -713,7 +714,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"advice\": {\n        \"classification\": {\n            \"countries\": [\"INO\"],\n            \"types\": [],\n            \"editions\": [],\n            \"machineReadableTravelDocuments\": []\n        }\n    },\n    \"sources\": [\"VIZ\", \"MRZ\", \"BARCODE\", \"DOCUMENT_PORTRAIT\"] \n}"
+							"raw": "{\n    \"advice\": {\n        \"classification\": {\n            \"countries\": [],\n            \"types\": [],\n            \"editions\": [],\n            \"machineReadableTravelDocuments\": []\n        }\n    },\n    \"sources\": [\"VIZ\", \"MRZ\", \"BARCODE\", \"DOCUMENT_PORTRAIT\"] \n}"
 						},
 						"url": {
 							"raw": "{{identity-service}}/api/{{api-version}}/customers/{{customerId}}/document",
