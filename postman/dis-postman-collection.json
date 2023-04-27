@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "b38d19aa-a771-440f-9237-dcae581b5110",
-		"name": "DOT Digital Identity Service 1.18.0",
+		"_postman_id": "241d6cb7-8ec0-4359-a909-ed9b00aa93e6",
+		"name": "DOT Digital Identity Service 1.19.0",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "22549255"
 	},
@@ -2474,6 +2474,53 @@
 								"{{customerId}}",
 								"document",
 								"inspect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inspect customer document disclose",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{identity-service}}/api/{{api-version}}/customers/{{customerId}}/document/inspect/disclose",
+							"host": [
+								"{{identity-service}}"
+							],
+							"path": [
+								"api",
+								"{{api-version}}",
+								"customers",
+								"{{customerId}}",
+								"document",
+								"inspect",
+								"disclose"
 							]
 						}
 					},
