@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "241d6cb7-8ec0-4359-a909-ed9b00aa93e6",
-		"name": "DOT Digital Identity Service 1.21.0",
+		"name": "DOT Digital Identity Service 1.22.0",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "22549255"
 	},
@@ -2771,6 +2771,49 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Create face using link to customer selfie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var apiVersion = pm.variables.get(\"api-version\")",
+									"var regExMatch = new RegExp('\\/api\\/' + apiVersion + '\\/faces\\/(.*)');",
+									"postman.setEnvironmentVariable(\"faceId\", jsonData.links.self.match(regExMatch)[1]);",
+									"postman.setEnvironmentVariable(\"probeFaceId\", jsonData.links.self.match(regExMatch)[1]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"faceOrigin\": {\n        \"link\": \"/api/{{api-version}}/customers/{{customerId}}/selfie\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{identity-service}}/api/{{api-version}}/faces",
+							"host": [
+								"{{identity-service}}"
+							],
+							"path": [
+								"api",
+								"{{api-version}}",
+								"faces"
+							]
+						}
+					},
+					"response": []
 				},
 				{
 					"name": "Create face 1",
