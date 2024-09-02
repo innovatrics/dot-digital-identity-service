@@ -86,24 +86,24 @@
           "required": true
         },
         "responses": {
-          "403": {
-            "description": "Forbidden"
-          },
           "401": {
             "description": "Unauthorized"
           },
-          "200": {
-            "description": "OK",
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateSelfieResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
               "application/json": {
                 "schema": {
@@ -122,12 +122,12 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/CreateSelfieResponse"
                 }
               }
             }
@@ -176,6 +176,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -188,9 +191,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "204": {
             "description": "No Content"
@@ -221,16 +221,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateCustomerLivenessResponse"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
             "content": {
@@ -251,12 +241,15 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/CreateCustomerLivenessResponse"
                 }
               }
             }
@@ -274,8 +267,15 @@
           "403": {
             "description": "Forbidden"
           },
-          "401": {
-            "description": "Unauthorized"
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -311,6 +311,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -323,9 +326,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "204": {
             "description": "No Content"
@@ -366,16 +366,6 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "404": {
             "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
             "content": {
@@ -386,12 +376,15 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/LivenessChallengeResponse"
                 }
               }
             }
@@ -406,18 +399,25 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200": {
-            "description": "OK",
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LivenessChallengeResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -458,8 +458,44 @@
           "required": true
         },
         "responses": {
+          "404": {
+            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
             "content": {
               "application/json": {
                 "schema": {
@@ -477,42 +513,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         },
         "security": [
@@ -548,6 +548,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -560,9 +563,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "204": {
             "description": "No Content"
@@ -609,21 +609,11 @@
           "required": true
         },
         "responses": {
-          "403": {
-            "description": "Forbidden"
-          },
           "401": {
             "description": "Unauthorized"
           },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateDocumentPageResponse"
-                }
-              }
-            }
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
@@ -635,8 +625,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
               "application/json": {
                 "schema": {
@@ -645,8 +635,18 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateDocumentPageResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
             "content": {
               "application/json": {
                 "schema": {
@@ -691,6 +691,9 @@
           "required": true
         },
         "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -703,9 +706,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_REQUEST_BODY",
@@ -752,6 +752,9 @@
           }
         ],
         "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -764,9 +767,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "204": {
             "description": "No Content"
@@ -803,21 +803,11 @@
           "required": true
         },
         "responses": {
-          "403": {
-            "description": "Forbidden"
-          },
           "401": {
             "description": "Unauthorized"
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE\n - FACE_SIZE_MEMORY_LIMIT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
@@ -845,6 +835,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateFaceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE\n - FACE_SIZE_MEMORY_LIMIT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -895,15 +895,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE\n - UNSUPPORTED_VERSION_TEMPLATE\n - CORRUPTED_TEMPLATE\n - INCOMPATIBLE_TEMPLATE",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -928,8 +921,15 @@
           "403": {
             "description": "Forbidden"
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE\n - UNSUPPORTED_VERSION_TEMPLATE\n - CORRUPTED_TEMPLATE\n - INCOMPATIBLE_TEMPLATE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -947,15 +947,8 @@
         "summary": "Create a customer",
         "operationId": "createCustomer",
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateCustomerResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -970,8 +963,15 @@
           "403": {
             "description": "Forbidden"
           },
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCustomerResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1019,16 +1019,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -1039,11 +1029,21 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         },
         "security": [
@@ -1069,26 +1069,6 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Unprocessable request\n\nPossible error codes:\n - ALREADY_EXISTS",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateCustomerResponse"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
             "content": {
@@ -1098,6 +1078,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1109,11 +1092,28 @@
               }
             }
           },
+          "422": {
+            "description": "Unprocessable request\n\nPossible error codes:\n - ALREADY_EXISTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden"
           },
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCustomerResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1149,6 +1149,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -1161,9 +1164,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "204": {
             "description": "No Content"
@@ -1204,16 +1204,6 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "404": {
             "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
             "content": {
@@ -1224,15 +1214,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1244,11 +1227,28 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden"
           },
-          "401": {
-            "description": "Unauthorized"
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "204": {
             "description": "No Content"
@@ -1299,15 +1299,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1319,8 +1312,11 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE",
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
             "content": {
               "application/json": {
                 "schema": {
@@ -1329,18 +1325,22 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateCustomerLivenessSelfieResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1392,15 +1392,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1412,8 +1405,11 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE",
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
             "content": {
               "application/json": {
                 "schema": {
@@ -1422,18 +1418,22 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateCustomerLivenessRecordResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1474,12 +1474,12 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/EvaluateCustomerLivenessResponse"
                 }
               }
             }
@@ -1494,15 +1494,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1514,18 +1507,25 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200": {
-            "description": "OK",
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EvaluateCustomerLivenessResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1586,15 +1586,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1609,8 +1602,15 @@
           "403": {
             "description": "Forbidden"
           },
-          "401": {
-            "description": "Unauthorized"
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1658,15 +1658,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1678,18 +1671,25 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CustomerInspectDiscloseResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1740,15 +1740,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -1773,8 +1766,15 @@
           "403": {
             "description": "Forbidden"
           },
-          "401": {
-            "description": "Unauthorized"
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1802,16 +1802,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocumentInspectDiscloseResponse"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
             "content": {
@@ -1831,6 +1821,22 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "409": {
             "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
@@ -1842,73 +1848,15 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/DocumentInspectDiscloseResponse"
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        },
-        "security": [
-          {
-            "api": []
-          }
-        ]
-      }
-    },
-    "/api/v1/trust-evaluation/trust-factor-definitions": {
-      "get": {
-        "tags": [
-          "Trust Evaluator"
-        ],
-        "summary": "Get a list of available Trust Factor definitions",
-        "operationId": "getTrustFactorDefinitions",
-        "responses": {
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         },
         "security": [
@@ -1926,6 +1874,19 @@
         "summary": "Get metadata",
         "operationId": "metadata",
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentMetadataResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -1938,19 +1899,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocumentMetadataResponse"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -1978,16 +1926,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FaceQualityResponse"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
             "content": {
@@ -2008,6 +1946,19 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaceQualityResponse"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -2020,9 +1971,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         },
         "security": [
@@ -2070,6 +2018,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -2080,6 +2031,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2089,12 +2043,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         },
         "security": [
@@ -2122,16 +2070,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FaceTemplateResponse"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
             "content": {
@@ -2152,6 +2090,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -2162,11 +2103,18 @@
               }
             }
           },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaceTemplateResponse"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         },
         "security": [
@@ -2214,6 +2162,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -2226,9 +2177,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "200": {
             "description": "OK",
@@ -2294,15 +2242,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -2314,6 +2255,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2324,11 +2268,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2384,15 +2332,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -2404,6 +2345,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2414,11 +2358,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2466,6 +2414,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -2476,6 +2427,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2485,12 +2439,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         },
         "security": [
@@ -2538,6 +2486,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -2548,6 +2499,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2557,12 +2511,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         },
         "security": [
@@ -2626,15 +2574,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -2646,6 +2587,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2656,11 +2600,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2716,15 +2664,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -2736,6 +2677,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2746,11 +2690,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2806,15 +2754,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -2826,6 +2767,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2836,11 +2780,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2904,15 +2852,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -2924,6 +2865,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -2934,11 +2878,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2994,6 +2942,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -3004,12 +2955,6 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -3019,6 +2964,9 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         },
         "security": [
@@ -3074,15 +3022,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -3094,6 +3035,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -3104,11 +3048,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3164,15 +3112,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
@@ -3184,6 +3125,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -3194,11 +3138,15 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3236,6 +3184,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
             "content": {
@@ -3248,9 +3199,6 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "204": {
             "description": "No Content"
@@ -3430,6 +3378,45 @@
         "description": "This allows to link the image from liveness to be selfie photo. Do not upload the photo in Image class in this case.",
         "writeOnly": true
       },
+      "ErrorResponse": {
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "description": "Error code",
+            "readOnly": true,
+            "enum": [
+              "NOT_FOUND",
+              "INVALID_ID",
+              "INVALID_IMAGE",
+              "INVALID_REQUEST_BODY",
+              "INVALID_REQUEST_PARAMETER",
+              "INVALID_REQUEST_METHOD",
+              "CONFLICT",
+              "UNEXPECTED_ERROR",
+              "ALREADY_EXISTS",
+              "DATA_DOWNLOADER_DISABLED",
+              "MALFORMED_URL",
+              "FACE_SIZE_MEMORY_LIMIT",
+              "INCOMPATIBLE_TEMPLATE",
+              "CORRUPTED_TEMPLATE",
+              "UNSUPPORTED_VERSION_TEMPLATE",
+              "DATA_DOWNLOAD_ERROR"
+            ]
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error detailed description. It\u0027s only informative.",
+            "readOnly": true
+          }
+        },
+        "description": "Error response",
+        "readOnly": true
+      },
       "CreateSelfieResponse": {
         "type": "object",
         "properties": {
@@ -3550,45 +3537,6 @@
           }
         },
         "description": "The region of the interest. The coordinates of the rectangle.",
-        "readOnly": true
-      },
-      "ErrorResponse": {
-        "required": [
-          "errorCode",
-          "errorMessage"
-        ],
-        "type": "object",
-        "properties": {
-          "errorCode": {
-            "type": "string",
-            "description": "Error code",
-            "readOnly": true,
-            "enum": [
-              "NOT_FOUND",
-              "INVALID_ID",
-              "INVALID_IMAGE",
-              "INVALID_REQUEST_BODY",
-              "INVALID_REQUEST_PARAMETER",
-              "INVALID_REQUEST_METHOD",
-              "CONFLICT",
-              "UNEXPECTED_ERROR",
-              "ALREADY_EXISTS",
-              "DATA_DOWNLOADER_DISABLED",
-              "MALFORMED_URL",
-              "FACE_SIZE_MEMORY_LIMIT",
-              "INCOMPATIBLE_TEMPLATE",
-              "CORRUPTED_TEMPLATE",
-              "UNSUPPORTED_VERSION_TEMPLATE",
-              "DATA_DOWNLOAD_ERROR"
-            ]
-          },
-          "errorMessage": {
-            "type": "string",
-            "description": "Error detailed description. It\u0027s only informative.",
-            "readOnly": true
-          }
-        },
-        "description": "Error response",
         "readOnly": true
       },
       "CreateCustomerLivenessResponse": {
