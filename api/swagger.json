@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.57.0"
+    "version": "1.57.1"
   },
   "servers": [
     {
@@ -5193,12 +5193,7 @@
           },
           "pageType": {
             "type": "string",
-            "description": "Document\u0027s page type.",
-            "enum": [
-              "front",
-              "back",
-              "unknown"
-            ],
+            "description": "Document\u0027s page type. Possible values: `front`, `back`, `unknown`.",
             "example": "front",
             "readOnly": true
           },
@@ -5328,9 +5323,10 @@
           },
           "supportLevel": {
             "type": "string",
-            "description": "The support level of the document. \n - `FULL_SUPPORT` - The document is fully supported, including MRZ extraction and data extraction from the visual zone.\n - `MRZ_EXTRACTION_ONLY` - The document is supported only for MRZ extraction, no data extraction from the visual zone is performed.\n - `NOT_SUPPORTED` - The document is not supported.",
+            "description": "The support level of the document. \n - `FULL_SUPPORT` - The document is fully supported, including MRZ extraction and data extraction from the visual zone.\n - `MRZ_EXTRACTION_ONLY` - The document is supported only for MRZ extraction, no data extraction from the visual zone is performed.\n - `NOT_SUPPORTED` - The document is not supported.\n - `GENERIC_SUPPORT` - The document is supported as a generic non-structured document, only generic OCR is performed.",
             "enum": [
               "FULL_SUPPORT",
+              "GENERIC_SUPPORT",
               "MRZ_EXTRACTION_ONLY",
               "NOT_SUPPORTED"
             ],
@@ -5341,8 +5337,8 @@
             "type": "string",
             "description": "The support method of documents. Only present when supportLevel is `FULL_SUPPORT`. \n - `FULL_TEMPLATE_SUPPORT` - Document is supported with standard OCR training.\n - `GLOBAL_PASSPORT_SUPPORT` - Document is supported as a generic passport.",
             "enum": [
-              "FULL_TEMPLATE_SUPPORT",
-              "GLOBAL_PASSPORT_SUPPORT"
+              "GLOBAL_PASSPORT_SUPPORT",
+              "FULL_TEMPLATE_SUPPORT"
             ],
             "example": "FULL_TEMPLATE_SUPPORT",
             "readOnly": true
