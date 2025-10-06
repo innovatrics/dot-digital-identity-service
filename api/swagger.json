@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.57.1"
+    "version": "1.58.0"
   },
   "servers": [
     {
@@ -53,6 +53,98 @@
             }
           }
         }
+      }
+    },
+    "/api/v1/customers/{id}/trust-evaluation/evaluate": {
+      "put": {
+        "tags": [
+          "Trust Evaluator"
+        ],
+        "summary": "Evaluate trust factors based on submitted Trust Factor definitions with provided thresholds",
+        "operationId": "evaluateTrustFactors",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrustEvaluationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrustEvaluationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_BODY",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict\n\nPossible error codes:\n - CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "api": []
+          }
+        ]
       }
     },
     "/api/v1/customers/{id}/selfie": {
@@ -2904,6 +2996,68 @@
         ]
       }
     },
+    "/api/v1/trust-evaluation/trust-factor-definitions": {
+      "get": {
+        "tags": [
+          "Trust Evaluator"
+        ],
+        "summary": "Get a list of available Trust Factor definitions",
+        "operationId": "getTrustFactorDefinitions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrustFactorDefinitionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "api": []
+          }
+        ]
+      }
+    },
     "/api/v1/palms/{id}/template": {
       "get": {
         "tags": [
@@ -4683,6 +4837,410 @@
           "status"
         ]
       },
+      "ScoreConfiguration": {
+        "type": "object",
+        "properties": {
+          "rejectLow": {
+            "type": "number",
+            "format": "float",
+            "description": "Reject, if the value of the Trust Factor is lower than this value.",
+            "writeOnly": true
+          },
+          "rejectHigh": {
+            "type": "number",
+            "format": "float",
+            "description": "Reject, if the value of the Trust Factor is higher than this value.",
+            "writeOnly": true
+          },
+          "reviewLow": {
+            "type": "number",
+            "format": "float",
+            "description": "Review, if the value of the Trust Factor is lower than this value.",
+            "writeOnly": true
+          },
+          "reviewHigh": {
+            "type": "number",
+            "format": "float",
+            "description": "Review, if the value of the Trust Factor is higher than this value.",
+            "writeOnly": true
+          }
+        }
+      },
+      "TrustEvaluationRequest": {
+        "type": "object",
+        "properties": {
+          "trustFactorDefinitions": {
+            "type": "array",
+            "description": "A list of trust factor definitions to evaluate",
+            "example": [
+              {
+                "name": "trust_factor_1_name",
+                "type": "SCORE",
+                "scoreConfiguration": {
+                  "rejectLow": 0.58,
+                  "reviewLow": 0.8
+                }
+              },
+              {
+                "name": "trust_factor_2_name",
+                "type": "BOOLEAN",
+                "booleanConfiguration": "REJECT_IF_FALSE"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TrustFactorEvaluationDefinitionDTO"
+            },
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "trustFactorDefinitions"
+        ],
+        "writeOnly": true
+      },
+      "TrustFactorEvaluationDefinitionDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the trust factor",
+            "example": "trust_factor_name",
+            "writeOnly": true
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the trust factor",
+            "enum": [
+              "SCORE",
+              "BOOLEAN"
+            ],
+            "example": "SCORE",
+            "writeOnly": true
+          },
+          "scoreConfiguration": {
+            "$ref": "#/components/schemas/ScoreConfiguration",
+            "description": "Configuration for score type trust factor. Required if the trust factor type is set to \"SCORE\".",
+            "writeOnly": true
+          },
+          "booleanConfiguration": {
+            "type": "string",
+            "description": "Configuration for boolean type trust factor. Required if the trust factor type is set to\"BOOLEAN\"",
+            "enum": [
+              "REJECT_IF_TRUE",
+              "REVIEW_IF_TRUE",
+              "REJECT_IF_FALSE",
+              "REVIEW_IF_FALSE"
+            ],
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code.",
+            "enum": [
+              "INVALID_TRUST_FACTOR_DEFINITION"
+            ],
+            "readOnly": true
+          },
+          "trustFactorName": {
+            "type": "string",
+            "description": "The name of the trust factor that caused the error",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "error",
+          "trustFactorName"
+        ]
+      },
+      "EvaluationResult": {
+        "type": "object",
+        "properties": {
+          "trustFactorName": {
+            "type": "string",
+            "description": "The name of the evaluated trust factor",
+            "readOnly": true
+          },
+          "result": {
+            "type": "string",
+            "description": "The result of the evaluated trust factor",
+            "enum": [
+              "REJECT",
+              "REVIEW",
+              "ACCEPT"
+            ],
+            "readOnly": true
+          },
+          "scoreValue": {
+            "type": "number",
+            "format": "float",
+            "description": "The score value of the evaluated trust factor. Present only if the trust factor type is SCORE",
+            "readOnly": true
+          },
+          "booleanValue": {
+            "type": "boolean",
+            "description": "The boolean value of the evaluated trust factor. Present only if the trust factor type is BOOLEAN",
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "result",
+          "trustFactorName"
+        ]
+      },
+      "TrustEvaluation": {
+        "type": "object",
+        "description": "The trust evaluation of the customer.",
+        "properties": {
+          "result": {
+            "type": "string",
+            "description": "The overall result of the trust evaluation",
+            "enum": [
+              "REJECT",
+              "REVIEW",
+              "ACCEPT"
+            ],
+            "example": "REVIEW",
+            "readOnly": true
+          },
+          "trustFactorEvaluationResults": {
+            "type": "array",
+            "description": "The list of individual trust factor evaluation results. Can be configured server-side to not be returned",
+            "example": [
+              {
+                "trustFactorName": "boolean_trust_factor_name",
+                "result": "ACCEPT",
+                "booleanValue": true
+              },
+              {
+                "trustFactorName": "score_trust_factor_name_2",
+                "result": "REVIEW",
+                "scoreValue": 0.75
+              },
+              {
+                "trustFactorName": "score_trust_factor_name_3",
+                "result": "REJECT",
+                "scoreValue": 22.0
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/EvaluationResult"
+            },
+            "readOnly": true
+          },
+          "warnings": {
+            "type": "array",
+            "description": "The list of warnings for individual trust factors",
+            "example": [
+              {
+                "warning": "UNKNOWN_TRUST_FACTOR_DEFINITION",
+                "trustFactorName": "unknown_trust_factor_name"
+              },
+              {
+                "warning": "DISABLED_TRUST_FACTOR_DEFINITION",
+                "trustFactorName": "disabled_trust_factor_name"
+              },
+              {
+                "warning": "MISSING_TRUST_FACTOR_DATA",
+                "trustFactorName": "not_available_trust_factor_name"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "description": "The list of errors for individual trust factors",
+            "example": [
+              {
+                "error": "INVALID_TRUST_FACTOR_DEFINITION",
+                "trustFactorName": "invalid_trust_factor_name"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "result"
+        ]
+      },
+      "TrustEvaluationLinks": {
+        "type": "object",
+        "description": "Links to various resources available for the evaluated customer",
+        "properties": {
+          "customer": {
+            "type": "string",
+            "description": "The link to the customer",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c",
+            "readOnly": true
+          },
+          "customerSelfie": {
+            "type": "string",
+            "description": "The link to the customer\u0027s selfie",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/selfie",
+            "readOnly": true
+          },
+          "customerLivenessRecords": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "The list of links to the customer\u0027s liveness records. The map keys represent the liveness types",
+            "example": {
+              "MAGNIFEYE": [
+                "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/liveness/records/d89e2761-3501-49a3-92dc-26ca563f1e49/selfie"
+              ],
+              "SMILE": [
+                "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/liveness/records/5c327c37-cb45-45fe-9946-7a6a49a88d06/selfie"
+              ]
+            },
+            "readOnly": true
+          },
+          "portrait": {
+            "type": "string",
+            "description": "The document\u0027s portrait link",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/portrait",
+            "readOnly": true
+          },
+          "ghostPortrait": {
+            "type": "string",
+            "description": "The document\u0027s ghost portrait link",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/ghost-portrait",
+            "readOnly": true
+          },
+          "signature": {
+            "type": "string",
+            "description": "The document\u0027s signature image link",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/signature",
+            "readOnly": true
+          },
+          "fingerprint": {
+            "type": "string",
+            "description": "The document\u0027s fingerprint image link",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/fingerprint",
+            "readOnly": true
+          },
+          "pages": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The map of links to the document\u0027s pages. The map keys represent page types",
+            "example": {
+              "back": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/pages/back",
+              "front": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/pages/front"
+            },
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "customer"
+        ]
+      },
+      "TrustEvaluationResponse": {
+        "type": "object",
+        "properties": {
+          "trustEvaluation": {
+            "$ref": "#/components/schemas/TrustEvaluation",
+            "description": "The trust evaluation of the customer.",
+            "readOnly": true
+          },
+          "links": {
+            "$ref": "#/components/schemas/TrustEvaluationLinks",
+            "description": "Links to the various resources available for the evaluated customer",
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "links",
+          "trustEvaluation"
+        ]
+      },
+      "Warning": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string",
+            "description": "The warning code.",
+            "enum": [
+              "UNKNOWN_TRUST_FACTOR_DEFINITION",
+              "DISABLED_TRUST_FACTOR_DEFINITION",
+              "MISSING_TRUST_FACTOR_DATA"
+            ],
+            "readOnly": true
+          },
+          "trustFactorName": {
+            "type": "string",
+            "description": "The name of the trust factor that caused the warning",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "trustFactorName",
+          "warning"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Error response",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "description": "Error code",
+            "enum": [
+              "NOT_FOUND",
+              "INVALID_ID",
+              "INVALID_IMAGE",
+              "INVALID_REQUEST_BODY",
+              "INVALID_REQUEST_PARAMETER",
+              "INVALID_REQUEST_METHOD",
+              "CONFLICT",
+              "UNEXPECTED_ERROR",
+              "ALREADY_EXISTS",
+              "DATA_DOWNLOADER_DISABLED",
+              "MALFORMED_URL",
+              "FACE_SIZE_MEMORY_LIMIT",
+              "INCOMPATIBLE_TEMPLATE",
+              "CORRUPTED_TEMPLATE",
+              "UNSUPPORTED_VERSION_TEMPLATE",
+              "DATA_DOWNLOAD_ERROR",
+              "NOT_ENOUGH_DATA",
+              "TOO_MANY_REQUESTS"
+            ],
+            "readOnly": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error detailed description. It\u0027s only informative.",
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "errorCode",
+          "errorMessage"
+        ]
+      },
       "CreateSelfieRequest": {
         "type": "object",
         "properties": {
@@ -4892,47 +5450,6 @@
           "topRight"
         ]
       },
-      "ErrorResponse": {
-        "type": "object",
-        "description": "Error response",
-        "properties": {
-          "errorCode": {
-            "type": "string",
-            "description": "Error code",
-            "enum": [
-              "NOT_FOUND",
-              "INVALID_ID",
-              "INVALID_IMAGE",
-              "INVALID_REQUEST_BODY",
-              "INVALID_REQUEST_PARAMETER",
-              "INVALID_REQUEST_METHOD",
-              "CONFLICT",
-              "UNEXPECTED_ERROR",
-              "ALREADY_EXISTS",
-              "DATA_DOWNLOADER_DISABLED",
-              "MALFORMED_URL",
-              "FACE_SIZE_MEMORY_LIMIT",
-              "INCOMPATIBLE_TEMPLATE",
-              "CORRUPTED_TEMPLATE",
-              "UNSUPPORTED_VERSION_TEMPLATE",
-              "DATA_DOWNLOAD_ERROR",
-              "NOT_ENOUGH_DATA",
-              "TOO_MANY_REQUESTS"
-            ],
-            "readOnly": true
-          },
-          "errorMessage": {
-            "type": "string",
-            "description": "Error detailed description. It\u0027s only informative.",
-            "readOnly": true
-          }
-        },
-        "readOnly": true,
-        "required": [
-          "errorCode",
-          "errorMessage"
-        ]
-      },
       "CreateCustomerLivenessResponse": {
         "type": "object",
         "properties": {
@@ -4956,7 +5473,8 @@
               "EYE_GAZE_LIVENESS",
               "PASSIVE_LIVENESS",
               "SMILE_LIVENESS",
-              "MAGNIFEYE_LIVENESS"
+              "MAGNIFEYE_LIVENESS",
+              "MULTI_RANGE_LIVENESS"
             ]
           }
         },
@@ -5010,6 +5528,9 @@
             "oneOf": [
               {
                 "$ref": "#/components/schemas/EyeGazeChallengeDetails"
+              },
+              {
+                "$ref": "#/components/schemas/MultiRangeLivenessChallengeDetails"
               }
             ],
             "readOnly": true
@@ -5018,6 +5539,38 @@
         "readOnly": true,
         "required": [
           "details"
+        ]
+      },
+      "MultiRangeLivenessChallengeDetails": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ChallengeDetails"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "challengeSequence": {
+                "type": "array",
+                "description": "The sequence for the liveness challenge.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ZERO",
+                    "ONE",
+                    "TWO",
+                    "THREE",
+                    "FOUR",
+                    "FIVE"
+                  ]
+                },
+                "readOnly": true
+              }
+            }
+          }
+        ],
+        "description": "The liveness challenge details for the Multi-range liveness challenge.",
+        "required": [
+          "challengeSequence"
         ]
       },
       "CreateDocumentRequest": {
@@ -5873,6 +6426,12 @@
               "EYE_GAZE_BOTTOM_RIGHT",
               "SMILE",
               "NEUTRAL",
+              "FACE_SIZE_ZERO",
+              "FACE_SIZE_ONE",
+              "FACE_SIZE_TWO",
+              "FACE_SIZE_THREE",
+              "FACE_SIZE_FOUR",
+              "FACE_SIZE_FIVE",
               "NONE"
             ],
             "example": "EYE_GAZE_TOP_LEFT"
@@ -5934,7 +6493,8 @@
               "EYE_GAZE_LIVENESS",
               "PASSIVE_LIVENESS",
               "SMILE_LIVENESS",
-              "MAGNIFEYE_LIVENESS"
+              "MAGNIFEYE_LIVENESS",
+              "MULTI_RANGE_LIVENESS"
             ],
             "writeOnly": true
           }
@@ -5957,7 +6517,8 @@
               "SMILE",
               "NEUTRAL",
               "NONE",
-              "MAGNIFEYE"
+              "MAGNIFEYE",
+              "MULTI_RANGE"
             ],
             "readOnly": true
           },
@@ -5987,6 +6548,12 @@
               "EYE_GAZE_BOTTOM_RIGHT",
               "SMILE",
               "NEUTRAL",
+              "FACE_SIZE_ZERO",
+              "FACE_SIZE_ONE",
+              "FACE_SIZE_TWO",
+              "FACE_SIZE_THREE",
+              "FACE_SIZE_FOUR",
+              "FACE_SIZE_FIVE",
               "NONE"
             ],
             "readOnly": true
@@ -6087,7 +6654,8 @@
               "EYE_GAZE_LIVENESS",
               "PASSIVE_LIVENESS",
               "SMILE_LIVENESS",
-              "MAGNIFEYE_LIVENESS"
+              "MAGNIFEYE_LIVENESS",
+              "MULTI_RANGE_LIVENESS"
             ],
             "example": "PASSIVE",
             "writeOnly": true
@@ -6994,6 +7562,61 @@
         "readOnly": true,
         "required": [
           "score"
+        ]
+      },
+      "TrustFactorDefinitionDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the trust factor",
+            "example": "trust_factor_name",
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the trust factor",
+            "enum": [
+              "SCORE",
+              "BOOLEAN"
+            ],
+            "example": "SCORE",
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "TrustFactorDefinitionsResponse": {
+        "type": "object",
+        "properties": {
+          "trustFactorDefinitions": {
+            "type": "array",
+            "description": "A list of available Trust Factor definitions",
+            "example": {
+              "trustFactorDefinitions": [
+                {
+                  "name": "trust_factor_1_name",
+                  "type": "SCORE"
+                },
+                {
+                  "name": "trust_factor_2_name",
+                  "type": "BOOLEAN"
+                }
+              ]
+            },
+            "items": {
+              "$ref": "#/components/schemas/TrustFactorDefinitionDTO"
+            },
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "trustFactorDefinitions"
         ]
       },
       "PalmTemplateResponse": {
