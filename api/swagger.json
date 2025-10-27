@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.58.0"
+    "version": "1.59.0"
   },
   "servers": [
     {
@@ -6012,6 +6012,7 @@
             "type": "string",
             "description": "The palm detection error code",
             "enum": [
+              "MULTIPLE_PALMS_DETECTED",
               "NO_PALM_DETECTED",
               "INVALID_DATA"
             ],
