@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.59.1"
+    "version": "1.60.0"
   },
   "servers": [
     {
@@ -5126,6 +5126,18 @@
             "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/ghost-portrait",
             "readOnly": true
           },
+          "chipPortrait": {
+            "type": "string",
+            "description": "The document\u0027s chip portrait link",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/chip/portrait",
+            "readOnly": true
+          },
+          "chipData": {
+            "type": "string",
+            "description": "The document\u0027s chip data link",
+            "example": "/api/v1/customers/c8da2203-4d44-42e1-9f8c-16df3b653f6c/document/chip/data",
+            "readOnly": true
+          },
           "signature": {
             "type": "string",
             "description": "The document\u0027s signature image link",
@@ -6735,7 +6747,8 @@
                 "PASSIVE",
                 "SMILE",
                 "EYE_GAZE",
-                "MAGNIFEYE"
+                "MAGNIFEYE",
+                "MULTI_RANGE"
               ]
             },
             "minItems": 1,
@@ -6770,6 +6783,11 @@
           "evaluationOnMagnifeye": {
             "$ref": "#/components/schemas/LivenessEvaluation",
             "description": "Evaluation of the extended liveness on MAGNIFEYE liveness resources.",
+            "readOnly": true
+          },
+          "evaluationOnMultiRange": {
+            "$ref": "#/components/schemas/LivenessEvaluation",
+            "description": "Evaluation of the extended liveness on MULTI-RANGE liveness resources.",
             "readOnly": true
           }
         }
