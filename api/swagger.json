@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.60.1"
+    "version": "1.61.0"
   },
   "servers": [
     {
@@ -5377,6 +5377,21 @@
           "self"
         ]
       },
+      "OriginalImage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "format": "byte",
+            "description": "The original image provided as Base64 encoded string",
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "data"
+        ]
+      },
       "Point": {
         "type": "object",
         "description": "The point coordinates.",
@@ -5410,6 +5425,10 @@
             "$ref": "#/components/schemas/ResourceVideo",
             "description": "The video snippet recorded during the capture of the resource",
             "readOnly": true
+          },
+          "originalImage": {
+            "$ref": "#/components/schemas/OriginalImage",
+            "readOnly": true
           }
         },
         "readOnly": true
@@ -5420,7 +5439,7 @@
           "data": {
             "type": "string",
             "format": "byte",
-            "description": "The video snippet provided as Base64 encoded string",
+            "description": "The video snippet in MP4 format provided as Base64 encoded string",
             "readOnly": true
           }
         },
