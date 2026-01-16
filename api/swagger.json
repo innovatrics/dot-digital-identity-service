@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.61.0"
+    "version": "1.62.0"
   },
   "servers": [
     {
@@ -8185,41 +8185,70 @@
         "properties": {
           "age": {
             "$ref": "#/components/schemas/BiometricMultiValueAttribute",
-            "description": "Values for the biometric attribute `AGE` retrieved from different sources by facial biometry or by OCR.",
+            "description": "Values for the textual attribute `AGE` retrieved by: \n - Facial biometry. \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
+            "example": {
+              "visualZone": "40",
+              "mrz": "40",
+              "documentPortrait": "31"
+            },
             "readOnly": true
           },
           "gender": {
             "$ref": "#/components/schemas/BiometricMultiValueAttribute",
-            "description": "Values for the biometric attribute `GENDER` retrieved from different sources by facial biometry or by OCR. \nThe gender is represented by: `M` for male, `F` for female. In the visual inspection zone (VIZ), an undefined gender is represented by `X`, while in the machine-readable zone (MRZ), it is represented by an empty string.",
+            "description": "Values for the textual attribute `GENDER` retrieved by: \n - Facial biometry. \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip. \nThe gender is represented by: `M` for male, `F` for female. In the visual inspection zone (VIZ), an undefined gender is represented by `X`, while in the machine-readable zone (MRZ), it is represented by an empty string.",
+            "example": {
+              "visualZone": "M",
+              "mrz": "M",
+              "documentPortrait": "M"
+            },
             "readOnly": true
           },
           "givenNames": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `GIVEN_NAMES` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
+            "example": {
+              "visualZone": "Brian",
+              "mrz": "BRIAN"
+            },
             "readOnly": true
           },
           "surname": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `SURNAME` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
+            "example": {
+              "visualZone": "Bell",
+              "mrz": "BELL"
+            },
             "readOnly": true
           },
           "fullName": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the biometric attribute `FULL_NAME` retrieved by OCR from different sources on the document photo. ",
             "readOnly": true
           },
           "dateOfBirth": {
             "$ref": "#/components/schemas/MultiValueAttribute",
-            "description": "Values for the textual attribute `DATE_OF_BIRTH` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip. \n \nThe date is represented in the format `YYYY-MM-DD`.",
+            "description": "Values for the textual attribute `DATE_OF_BIRTH` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip. \nThe date is represented in the format `YYYY-MM-DD`.",
+            "example": {
+              "visualZone": "1985-08-06",
+              "mrz": "1985-08-06"
+            },
             "readOnly": true
           },
           "personalNumber": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `PERSONAL_NUMBER` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
             "readOnly": true
           },
           "citizenship": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the biometric attribute `FULL_NAME` retrieved by OCR from different sources on the document photo. ",
             "readOnly": true
           },
           "nationality": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `NATIONALITY` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
+            "example": "visualZone",
             "readOnly": true
           },
           "document": {
@@ -8240,6 +8269,10 @@
           "pageTypes": {
             "type": "array",
             "description": "Document\u0027s page types. Possible values: `front`, `back`, `unknown`.",
+            "example": [
+              "back",
+              "front"
+            ],
             "items": {
               "type": "string"
             },
@@ -8247,22 +8280,41 @@
           },
           "dateOfIssue": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `DATE_OF_ISSUE` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.The date is represented in the format `YYYY-MM-DD`.",
+            "example": {
+              "visualZone": "2020-11-24"
+            },
             "readOnly": true
           },
           "dateOfExpiry": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `DATE_OF_EXPIRY` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.\nThe date is represented in the format `YYYY-MM-DD`.",
+            "example": {
+              "visualZone": "2030-11-24",
+              "mrz": "2030-11-24"
+            },
             "readOnly": true
           },
           "documentNumber": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `DOCUMENT_NUMBER` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
+            "example": {
+              "visualZone": "BB456987",
+              "mrz": "BB456987"
+            },
             "readOnly": true
           },
           "issuingAuthority": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `ISSUING_AUTHORITY` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
             "readOnly": true
           },
           "issuingState": {
             "$ref": "#/components/schemas/MultiValueAttribute",
+            "description": "Values for the textual attribute `ISSUING_STATE` retrieved by: \n - OCR from different sources on the document photo. \n - Reading from the document\u0027s chip.",
+            "example": {
+              "mrz": "SVK"
+            },
             "readOnly": true
           },
           "additionalTexts": {
@@ -8270,11 +8322,20 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/MultiValueAttributeWithoutMrz"
             },
-            "description": "The map of additional document texts. The map keys are text field types.",
+            "description": "\n            Contains a map of additional text elements extracted from the document.\n\n            The map key represents the type of text field present on the document.\n            The value contains the text extracted by OCR from the document image.\n            ",
+            "example": {
+              "placeOfBirth": {
+                "visualZone": "Los Angeles"
+              },
+              "address": {
+                "visualZone": "5 4th Street\nNew York"
+              }
+            },
             "readOnly": true
           },
           "mrz": {
             "$ref": "#/components/schemas/Mrz",
+            "description": "Values for the biometric attribute `MRZ` retrieved by OCR from different sources on the document photo.",
             "readOnly": true
           },
           "barcodes": {
