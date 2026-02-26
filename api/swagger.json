@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.62.0"
+    "version": "1.63.0"
   },
   "servers": [
     {
@@ -6869,10 +6869,20 @@
           "videoInjection": {
             "$ref": "#/components/schemas/VideoInjectionInspection",
             "readOnly": true
+          },
+          "deviceIds": {
+            "type": "array",
+            "description": "List of unique device IDs extracted from video injection captures.",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true,
+            "uniqueItems": true
           }
         },
         "readOnly": true,
         "required": [
+          "deviceIds",
           "videoInjection"
         ]
       },
