@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.63.0"
+    "version": "1.64.0"
   },
   "servers": [
     {
@@ -7543,7 +7543,7 @@
           "score": {
             "type": "number",
             "format": "float",
-            "description": "The resulting score of the document presentation attack check on the submitted document. The score is normalized to the interval from 0 to 1. Higher the score, higher the probability of the document portrait being genuine.",
+            "description": "The resulting score of the document presentation attack check on the submitted document. The score is normalized to the interval from 0 to 1. Higher the score, higher the probability of the document being genuine.",
             "example": 0.2165,
             "maximum": 1,
             "minimum": 0,
