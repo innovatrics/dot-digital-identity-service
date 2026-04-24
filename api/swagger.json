@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.64.0"
+    "version": "1.65.0"
   },
   "servers": [
     {
@@ -6134,6 +6134,15 @@
               "ANDROID",
               "IOS",
               "WEB"
+            ],
+            "readOnly": true
+          },
+          "device": {
+            "type": "string",
+            "description": "The type of device used to capture the resource.",
+            "enum": [
+              "MOBILE",
+              "OTHER"
             ],
             "readOnly": true
           }
