@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.65.0"
+    "version": "1.66.0"
   },
   "servers": [
     {
