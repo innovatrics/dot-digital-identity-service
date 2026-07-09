@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.67.0"
+    "version": "1.68.0"
   },
   "servers": [
     {
@@ -7615,7 +7615,9 @@
               "UNSUPPORTED_VERSION_TEMPLATE",
               "DATA_DOWNLOAD_ERROR",
               "NOT_ENOUGH_DATA",
-              "TOO_MANY_REQUESTS"
+              "TOO_MANY_REQUESTS",
+              "DOCUMENT_DETECTION_FAILED",
+              "DOCUMENT_METADATA_NOT_FOUND"
             ],
             "readOnly": true
           },
@@ -9151,22 +9153,8 @@
             "example": "55bd71d3-12cc-4c15-accd-b6dc8702bf3b",
             "pattern": "^[a-zA-Z\\d._-]{1,64}$",
             "writeOnly": true
-          },
-          "onboardingStatus": {
-            "type": "string",
-            "default": "",
-            "description": "Onboarding status of the customer to be stored in the Trust Platform. Use the FINISHED status only if you have collected all required data of the customer.",
-            "enum": [
-              "IN_PROGRESS",
-              "FINISHED"
-            ],
-            "example": "IN_PROGRESS",
-            "writeOnly": true
           }
-        },
-        "required": [
-          "onboardingStatus"
-        ]
+        }
       },
       "CreateCustomerLivenessSelfieRequest": {
         "type": "object",
@@ -10678,7 +10666,7 @@
             "type": "number",
             "format": "float",
             "default": "",
-            "description": "The resulting score of the document presentation attack check on the submitted document. The score is normalized to the interval from 0 to 1. Higher the score, higher the probability of the document being genuine.",
+            "description": "The resulting score of the document presentation attack check on the submitted document. The score is normalized to the interval from 0 to 1. Higher the score, higher the probability of the document portrait being genuine.",
             "example": 0.2165,
             "maximum": 1,
             "minimum": 0,
