@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "241d6cb7-8ec0-4359-a909-ed9b00aa93e6",
-		"name": "DOT Digital Identity Service 1.68.0",
+		"name": "DOT Digital Identity Service 1.69.0",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23173958"
 	},
@@ -1127,7 +1127,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"advice\": {\n        \"classification\": {\n            \"countries\": [],\n            \"types\": [],\n            \"editions\": [],\n            \"machineReadableTravelDocuments\": []\n        }\n    },\n    \"sources\": [\"VIZ\", \"MRZ\", \"BARCODE\", \"DOCUMENT_PORTRAIT\"] \n}"
+							"raw": "{\n    \"advice\": {\n        \"classification\": {\n            \"countries\": [],\n            \"types\": [],\n            \"editions\": [],\n            \"machineReadableTravelDocuments\": []\n        }\n    },\n    \"sources\": [\"VIZ\", \"MRZ\", \"BARCODE\", \"DOCUMENT_PORTRAIT\", \"GLOBAL_OCR\"] \n}"
 						},
 						"url": {
 							"raw": "{{identity-service}}/api/{{api-version}}/customers/{{customerId}}/document",
@@ -2582,6 +2582,133 @@
 					"response": []
 				},
 				{
+					"name": "Get customer selfie crop",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `<img src=\"data:image/png;base64, {{image}}\"/>`;",
+									"pm.visualizer.set(template, {image: pm.response.json()[\"data\"]});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity-service}}/api/{{api-version}}/customers/{{customerId}}/selfie/crop",
+							"host": [
+								"{{identity-service}}"
+							],
+							"path": [
+								"api",
+								"{{api-version}}",
+								"customers",
+								"{{customerId}}",
+								"selfie",
+								"crop"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get customer selfie crop - set height",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{identity-service}}/api/{{api-version}}/customers/{{customerId}}/selfie/crop?height=800",
+									"host": [
+										"{{identity-service}}"
+									],
+									"path": [
+										"api",
+										"{{api-version}}",
+										"customers",
+										"{{customerId}}",
+										"selfie",
+										"crop"
+									],
+									"query": [
+										{
+											"key": "height",
+											"value": "800"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Get customer selfie crop - set width",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{identity-service}}/api/{{api-version}}/customers/{{customerId}}/selfie/crop?width=800",
+									"host": [
+										"{{identity-service}}"
+									],
+									"path": [
+										"api",
+										"{{api-version}}",
+										"customers",
+										"{{customerId}}",
+										"selfie",
+										"crop"
+									],
+									"query": [
+										{
+											"key": "width",
+											"value": "800"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Customer selfie similarity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"referenceFaceTemplate\": \"Cp0ECAEQMRqIBAqABAn5Agb/BP8B/P32APH9AAUCB/sB9QAHBgL+APwB9vcHBQEB/gYKAfsIAvMEA/8F/gQBAAMI+QcE+wP//AIDBfv6DAD+/gT+AwMA/wkAB/8A9gD8B/oD+P7/AQcACwf6+AL+/gT9+wn9AgkH/gYEBPcDDP0G+AIF/wQABwD8/vsA/wf+/A8L/QT0AAMD/AH/AwL2A/r+AQAJ+P4AAwD9Avr6CP77Bf0DCf0E//b7BQD//vr+//oBAwAH+Qf8CQACAAIFDPYD9gEEBwQHAQoDAgMLCQAB/gj9BPwFAgL6BAYFBwYO+P0MAwEDAAIA/wL3Av38AwX2CQUEB/4F/f/+Bf/6/f8B/wIJBPoEBP7/BPv8/QL+9gAEAAT/AP8BCAAJ9QL9/AQP/gH+Awr+AAUCA/0G//oI/AH+AwH/+wT+/wD9BwL7+v/8+QAG8wECAfEIAAH+AfQTBAIACAMA/gH+BgX8BP79CP/9+v8CAgwEBfv6APoAAQn9/gH2+/j5AAcM9vn/9v8DAgMDBgcCCPYI+/4JAwL7AQP9+wH58wQA+/gA+/z8A/wAFPYDAPj//gIJAPv9+wX5+v8NBQb4+A0A/vcCAgMAAf77BvoQAvX+Dvf5CQMEDf39+/wCAfoFAAQKBwAEBAEBAvz9CQP8+AP+APf0+f4E/gEFCPn/A/P3AAX+FTdZ4kEqDAoKCgMI/wESAwikARIJCgcKBQ0u9XY/\"\n}"
+						},
+						"url": {
+							"raw": "{{identity-service}}/api/{{api-version}}/customers/{{customerId}}/similarity",
+							"host": [
+								"{{identity-service}}"
+							],
+							"path": [
+								"api",
+								"{{api-version}}",
+								"customers",
+								"{{customerId}}",
+								"similarity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get liveness record selfie",
 					"event": [
 						{
@@ -3501,6 +3628,27 @@
 								"faces",
 								"{{faceId}}",
 								"glasses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Face passive liveness",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity-service}}/api/{{api-version}}/faces/{{faceId}}/passive-liveness",
+							"host": [
+								"{{identity-service}}"
+							],
+							"path": [
+								"api",
+								"{{api-version}}",
+								"faces",
+								"{{faceId}}",
+								"passive-liveness"
 							]
 						}
 					},

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Digital Identity Service API",
-    "version": "1.68.0"
+    "version": "1.69.0"
   },
   "servers": [
     {
@@ -3333,6 +3333,127 @@
         ]
       }
     },
+    "/api/v1/customers/{id}/similarity": {
+      "post": {
+        "tags": [
+          "Customer onboarding"
+        ],
+        "summary": "Match the customer\u0027s selfie to the reference face",
+        "operationId": "checkSimilarity_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request to compare the customer\u0027s selfie against a reference face. You must provide either `referenceFace` or `referenceFaceTemplate`. If both or neither are provided, a 400 Bad Request error is returned.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FaceSimilarityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaceSimilarityResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_REQUEST_BODY\n - INVALID_IMAGE\n - UNSUPPORTED_VERSION_TEMPLATE\n - CORRUPTED_TEMPLATE\n - INCOMPATIBLE_TEMPLATE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api": []
+          }
+        ]
+      }
+    },
     "/api/v1/customers/{id}/liveness/selfies": {
       "post": {
         "tags": [
@@ -3615,6 +3736,26 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "includeSelfieTemplate",
+            "in": "query",
+            "description": "When `true`, the response\u0027s `selfie.template` carries the record selfie\u0027s face template (same shape as `GET /faces/{id}/face-template`), so the 1:N probe template can be read without a separate `POST /faces`. Additive: absent from the response when `false`.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "autoLinkSelfie",
+            "in": "query",
+            "description": "When `true`, set the customer selfie from this record\u0027s main selfie (a templated copy), replacing any existing selfie on each record. Gate on the response\u0027s `selfie.linked` (always present, defaults `false`), not on the presence of `selfie.template`; a caller that opts in owns the selfie and should not also `PUT /selfie`.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
             }
           }
         ],
@@ -4897,6 +5038,116 @@
         ]
       }
     },
+    "/api/v1/faces/{id}/passive-liveness": {
+      "get": {
+        "tags": [
+          "Face operations"
+        ],
+        "summary": "Evaluate the face\u0027s passive liveness",
+        "operationId": "checkPassiveLiveness",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FacePassiveLivenessResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api": []
+          }
+        ]
+      }
+    },
     "/api/v1/faces/{id}/glasses": {
       "get": {
         "tags": [
@@ -5627,6 +5878,134 @@
           },
           "400": {
             "description": "Bad request\n\nPossible error codes:\n - INVALID_ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found\n\nPossible error codes:\n - NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error\n\nPossible error codes:\n - UNEXPECTED_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api": []
+          }
+        ]
+      }
+    },
+    "/api/v1/customers/{id}/selfie/crop": {
+      "get": {
+        "tags": [
+          "Customer onboarding"
+        ],
+        "summary": "Get the crop of the customer\u0027s selfie",
+        "operationId": "getSelfieCrop",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageCrop",
+                  "additionalProperties": {
+                    "default": ""
+                  },
+                  "default": ""
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request\n\nPossible error codes:\n - INVALID_ID\n - INVALID_REQUEST_PARAMETER",
             "content": {
               "application/json": {
                 "schema": {
@@ -7617,7 +7996,8 @@
               "NOT_ENOUGH_DATA",
               "TOO_MANY_REQUESTS",
               "DOCUMENT_DETECTION_FAILED",
-              "DOCUMENT_METADATA_NOT_FOUND"
+              "DOCUMENT_METADATA_NOT_FOUND",
+              "LIVENESS_EVALUATION_FAILED"
             ],
             "readOnly": true
           },
@@ -8078,7 +8458,7 @@
               "null"
             ],
             "default": "",
-            "description": "The document sources. The chosen document sources indicate which part of the document should be processed. If the list of sources is not provided in the request, or if it is empty, the server will try to process all of them. \n \nPossible values: \n - `VIZ` (Visual Zone) - read data from text fields and crop image fields (e.g: signature, ghost portrait, fingerprint). \n - `MRZ` (Machine Readable Zone) - parse data from machine-readable zone. \n - `BARCODE` - extract data encoded in barcodes. \n - `DOCUMENT_PORTRAIT` - extract biometric data from document portrait. \n - `GLOBAL_OCR` - parse data from text fields using generic OCR. \n \n For instance, if only MRZ is requested, the document is classified only by MRZ, and only MRZ is recognized and processed.",
+            "description": "The document sources. The chosen document sources indicate which part of the document should be processed. If the list of sources is not provided in the request, or if it is empty, the server will try to process all of them. \n \nPossible values: \n - `VIZ` (Visual Zone) - read data from text fields and crop image fields (e.g: signature, ghost portrait, fingerprint). Selecting `VIZ` also enables `GLOBAL_OCR` as a fallback for documents without a trained template. \n - `MRZ` (Machine Readable Zone) - parse data from machine-readable zone. \n - `BARCODE` - extract data encoded in barcodes. \n - `DOCUMENT_PORTRAIT` - extract biometric data from document portrait. \n - `GLOBAL_OCR` - parse data from text fields using generic OCR. \n \n For instance, if only MRZ is requested, the document is classified only by MRZ, and only MRZ is recognized and processed. \n \nIf `GLOBAL_OCR` is requested without `VIZ`, the document is read only by the generic OCR reader; its extracted text and the machine-readable zone it detects are returned without requiring `VIZ` or `MRZ` to be listed. A national identity card read by the generic OCR reader requires both pages: data extracted from the front page is withheld — the page is reported as not recognized — until the page carrying the card\u0027s TD1 machine-readable zone issued by an EU/EEA country confirms the document.",
             "items": {
               "type": "string",
               "enum": [
@@ -8491,9 +8871,10 @@
               "null"
             ],
             "default": "",
-            "description": "The support method of documents. Only present when supportLevel is `FULL_SUPPORT`. \n - `FULL_TEMPLATE_SUPPORT` - Document is supported with standard OCR training.\n - `GLOBAL_PASSPORT_SUPPORT` - Document is supported as a generic passport.",
+            "description": "The support method of documents. Only present when supportLevel is `FULL_SUPPORT`. \n - `FULL_TEMPLATE_SUPPORT` - Document is supported with standard OCR training.\n - `GLOBAL_PASSPORT_SUPPORT` - Document is supported as a generic passport.\n - `GLOBAL_DOCUMENT_SUPPORT` - Document is supported as a generic national identity document (NID), read without a document-specific template (e.g. EU/EEA identity cards).",
             "enum": [
               "GLOBAL_PASSPORT_SUPPORT",
+              "GLOBAL_DOCUMENT_SUPPORT",
               "FULL_TEMPLATE_SUPPORT"
             ],
             "example": "FULL_TEMPLATE_SUPPORT",
@@ -9425,6 +9806,30 @@
           }
         }
       },
+      "FaceTemplateResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "description": "The template bytes",
+            "readOnly": true
+          },
+          "version": {
+            "type": "string",
+            "default": "",
+            "description": "The template version",
+            "example": "1.13",
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "data",
+          "version"
+        ]
+      },
       "LivenessRecordLinks": {
         "type": "object",
         "description": "The resource\u0027s links",
@@ -9448,10 +9853,27 @@
             "$ref": "#/components/schemas/FaceDetection",
             "default": "",
             "readOnly": true
+          },
+          "template": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FaceTemplateResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linked": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether autoLinkSelfie set the customer selfie from this record.",
+            "readOnly": true
           }
         },
         "required": [
-          "detection"
+          "detection",
+          "linked"
         ]
       },
       "EvaluateCustomerLivenessRequest": {
@@ -10666,7 +11088,7 @@
             "type": "number",
             "format": "float",
             "default": "",
-            "description": "The resulting score of the document presentation attack check on the submitted document. The score is normalized to the interval from 0 to 1. Higher the score, higher the probability of the document portrait being genuine.",
+            "description": "The resulting score of the document presentation attack check on the submitted document. The score is normalized to the interval from 0 to 1. Higher the score, higher the probability of the document being genuine.",
             "example": 0.2165,
             "maximum": 1,
             "minimum": 0,
@@ -11259,6 +11681,26 @@
           "preconditionsMet"
         ]
       },
+      "FacePassiveLivenessResponse": {
+        "type": "object",
+        "description": "The face\u0027s passive liveness",
+        "properties": {
+          "score": {
+            "type": "number",
+            "format": "double",
+            "default": "",
+            "description": "The passive-liveness (presentation-attack-detection) score of the face, in range `\u003c0.0; 1.0\u003e`. Values near **1** indicate a genuine, live face; values near **0** indicate a presentation attack (spoof).",
+            "example": 0.98,
+            "maximum": 1,
+            "minimum": 0,
+            "readOnly": true
+          }
+        },
+        "readOnly": true,
+        "required": [
+          "score"
+        ]
+      },
       "GlassesResponse": {
         "type": "object",
         "properties": {
@@ -11303,30 +11745,6 @@
           }
         },
         "readOnly": true
-      },
-      "FaceTemplateResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "string",
-            "format": "byte",
-            "default": "",
-            "description": "The template bytes",
-            "readOnly": true
-          },
-          "version": {
-            "type": "string",
-            "default": "",
-            "description": "The template version",
-            "example": "1.13",
-            "readOnly": true
-          }
-        },
-        "readOnly": true,
-        "required": [
-          "data",
-          "version"
-        ]
       },
       "FaceMaskResponse": {
         "type": "object",
