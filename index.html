@@ -3,7 +3,7 @@
 <head>
     <title>Digital Identity Service API</title>
     <!-- needed for adaptive design -->
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
 
@@ -15,10 +15,39 @@
             margin: 0;
             padding: 0;
         }
+        #error {
+            display: none;
+            font-family: Roboto, sans-serif;
+            padding: 24px;
+            color: #b00020;
+        }
     </style>
 </head>
 <body>
-<redoc spec-url='https://raw.githubusercontent.com/innovatrics/dot-digital-identity-service/master/api/swagger.json'></redoc>
+<div id="error"></div>
+<div id="redoc"></div>
+
 <script src="https://cdn.redoc.ly/redoc/v2.1.5/bundles/redoc.standalone.js"></script>
+<script>
+    (function () {
+        var BASE = 'https://raw.githubusercontent.com/innovatrics/dot-digital-identity-service/';
+
+        var requested = new URLSearchParams(window.location.search).get('version');
+        var ref = /^(master|\d+\.\d+\.\d+)$/.test(requested || '') ? requested : 'master';
+
+        Redoc.init(
+            BASE + ref + '/api/swagger.json',
+            { untrustedSpec: true },
+            document.getElementById('redoc'),
+            function (err) {
+                if (err) {
+                    var box = document.getElementById('error');
+                    box.textContent = 'Could not load the API specification for version "' + ref + '".';
+                    box.style.display = 'block';
+                }
+            }
+        );
+    })();
+</script>
 </body>
 </html>
